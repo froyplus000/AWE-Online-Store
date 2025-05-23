@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginForm from '@/components/LoginForm.vue'
 import SignUpForm from '@/components/SignUpForm.vue'
 
-// Placeholder views (you'll create these)
+// For other pages
 import Catalogue from '@/views/Catalogue.vue'
 import AdminDashboard from '@/views/AdminDashboard.vue'
 
@@ -19,7 +19,7 @@ const router = createRouter({
   routes,
 })
 
-// 🔐 Navigation Guard
+//  Navigation Guard
 router.beforeEach((to, from, next) => {
   const publicPages = ['/login', '/signup']
   const user = JSON.parse(localStorage.getItem('activeUser'))
