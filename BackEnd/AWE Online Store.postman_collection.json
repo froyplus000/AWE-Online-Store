@@ -1,0 +1,47 @@
+{
+	"info": {
+		"_postman_id": "113f5f8c-7d20-4753-898d-2e47f0970ea0",
+		"name": "AWE Online Store",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38823946"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "// You can adjust your input for this test\n{\n  \"fullName\": \"Pattarapol Tantechasa 2\",\n  \"email\": \"folk@gmail.com\",\n  \"password\": \"mypassword123\",\n  \"address\": \"123 Main St\",\n  \"phone\": \"0400000000\"\n}\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/users/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users",
+						"register"
+					]
+				},
+				"description": "Customer register for account, these are all required input for account registration"
+			},
+			"response": []
+		}
+	]
+}

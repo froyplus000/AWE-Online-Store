@@ -1,56 +1,41 @@
 package com.GroupSeven.AWE_Online_Store.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String firstname;
-    private String lastname;
+    @Column(name = "full_name", length = 100)
+    private String fullName;
+
+    @Column(length = 100, unique = true)
     private String email;
 
-    public User() {
-    }
+    @Column(name = "password_hash", length = 255)
+    private String passwordHash;
 
-    public User(String firstname, String lastname, String email) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.email = email;
-    }
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
-    public int getId() {
-        return id;
-    }
+    @Column(columnDefinition = "TEXT")
+    private String address;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    @Column(length = 50)
+    private String phone;
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public enum Role {
+        CUSTOMER,
+        ADMIN
     }
 }
