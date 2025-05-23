@@ -91,6 +91,57 @@
 					"response": []
 				},
 				{
+					"name": "Current user Information",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb2xrQGdtYWlsLmNvbSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc0ODAxNDYzNiwiZXhwIjoxNzQ4MDE4MjM2fQ.VC7n3H5DJrvaoWLWs8klOjpqxb9YovIrI8p0UJmP3g4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/me",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"me"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get current logged in user with token"
+					},
+					"response": []
+				},
+				{
 					"name": "Admin Login",
 					"request": {
 						"method": "POST",
@@ -131,6 +182,57 @@
 							]
 						},
 						"description": "Test Admin login with default admin account"
+					},
+					"response": []
+				},
+				{
+					"name": "Current Admin Information",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhd2UuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4MDE2MTU1LCJleHAiOjE3NDgwMTk3NTV9.u_tG4MYB4Z5B0bHM3CvJcyF1uwuy6snKnrswTpecxXk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/me",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"me"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get current logged in Admin with token"
 					},
 					"response": []
 				}
