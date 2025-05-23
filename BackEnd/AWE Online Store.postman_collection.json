@@ -7,41 +7,135 @@
 	},
 	"item": [
 		{
-			"name": "Register",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "// You can adjust your input for this test\n{\n  \"fullName\": \"Pattarapol Tantechasa 2\",\n  \"email\": \"folk@gmail.com\",\n  \"password\": \"mypassword123\",\n  \"address\": \"123 Main St\",\n  \"phone\": \"0400000000\"\n}\n\n",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+			"name": "User APIs",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// You can adjust your input for this test\n{\n  \"fullName\": \"Pattarapol Tantechasa 2\",\n  \"email\": \"folk@gmail.com\",\n  \"password\": \"mypassword123\",\n  \"address\": \"123 Main St\",\n  \"phone\": \"0400000000\"\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"register"
+							]
+						},
+						"description": "Customer register for account, these are all required input for account registration"
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/api/users/register",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"users",
-						"register"
-					]
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"folk@gmail.com\",\n  \"password\": \"mypassword123\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"login"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						},
+						"description": "Test User login"
+					},
+					"response": []
 				},
-				"description": "Customer register for account, these are all required input for account registration"
-			},
-			"response": []
+				{
+					"name": "Admin Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@awe.com\",\n  \"password\": \"admin123\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"login"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						},
+						"description": "Test Admin login with default admin account"
+					},
+					"response": []
+				}
+			],
+			"description": "All APIs test related to User Entity"
 		}
 	]
 }
