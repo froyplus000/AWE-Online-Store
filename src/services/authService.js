@@ -6,9 +6,9 @@ export async function registerCustomer(formData) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      username: formData.email,       // <-- remap email to username
+      username: formData.email,       
       password: formData.password,
-      fullName: formData.fullName     // optional, backend may ignore
+      fullName: formData.fullName     // optional
     }),
   })
 
@@ -22,7 +22,7 @@ export async function loginUser(credentials) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      username: credentials.email, // ✅ send as "username"
+      username: credentials.email, 
       password: credentials.password
     }),
   });
