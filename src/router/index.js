@@ -12,7 +12,6 @@ import Checkout from '@/views/Checkout.vue'
 import Payment from '@/views/Payment.vue'
 import Cart from '@/views/Cart.vue'
 
-
 const routes = [
   { path: '/', redirect: '/catalogue' },
   { path: '/login', component: LoginForm },
@@ -34,21 +33,18 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const user = JSON.parse(localStorage.getItem('activeUser'))
 
-  const publicPaths = ['/login', '/signup', '/catalogue']
+  const publicPaths = ['/login', '/signup', '/catalogue', '/cart', '/checkout']
   const isProductDetailsPage = /^\/product-details\/\d+$/.test(to.path)
 
   const isPublic = publicPaths.includes(to.path) || isProductDetailsPage
 
-  if (!isPublic) {
-    if (!user) return next('/login')
-
-    if (to.path === '/catalogue' && user.role !== 'CUSTOMER') return next('/admin/dashboard')
-    if (to.path.startsWith('/admin') && user.role !== 'ADMIN') return next('/catalogue')
+  if (!isPublic && !user) {
+    return next('/login')
   }
 
-  // Redirect logged-in admin away from catalogue
-  if (to.path === '/catalogue' && user && user.role === 'ADMIN') {
-    return next('/admin/dashboard')
+  // Block customer from accessing admin area
+  if (to.path.startsWith('/admin') && user?.role !== 'ADMIN') {
+    return next('/catalogue')
   }
 
   next()
