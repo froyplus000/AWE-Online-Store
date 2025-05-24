@@ -33,16 +33,17 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const user = JSON.parse(localStorage.getItem('activeUser'))
 
-  const publicPaths = ['/login', '/signup', '/catalogue', '/cart', '/checkout']
+  const publicPaths = ['/login', '/signup', '/catalogue', '/cart', '/checkout', '/payment']
   const isProductDetailsPage = /^\/product-details\/\d+$/.test(to.path)
 
   const isPublic = publicPaths.includes(to.path) || isProductDetailsPage
 
+  // If the route is a protected one then it will redirect to login
   if (!isPublic && !user) {
     return next('/login')
   }
 
-  // Block customer from accessing admin area
+  // Admin-only protection
   if (to.path.startsWith('/admin') && user?.role !== 'ADMIN') {
     return next('/catalogue')
   }
