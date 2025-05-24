@@ -10,6 +10,7 @@ import AdminDashboard from '@/views/AdminDashboard.vue'
 import ProductDetails from '@/views/ProductDetails.vue'
 import Checkout from '@/views/Checkout.vue'
 import Payment from '@/views/Payment.vue'
+import Cart from '@/views/Cart.vue'
 
 
 const routes = [
@@ -17,6 +18,7 @@ const routes = [
   { path: '/login', component: LoginForm },
   { path: '/signup', component: SignUpForm },
   { path: '/catalogue', component: Catalogue },
+  { path: '/cart', component: Cart },
   { path: '/admin/dashboard', component: AdminDashboard },
   { path: '/product-details/:id', component: ProductDetails, props: true },
   { path: '/checkout', component: Checkout },
