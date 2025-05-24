@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Service
 public class UserServiceAction implements UserService{
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     @Autowired
     public UserServiceAction(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -25,26 +25,12 @@ public class UserServiceAction implements UserService{
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private JwtUtil jwtUtil;
+    @Autowired
+    private UniversalFactoryService universalFactoryService;
+
     @Override
     public User registerUser(UserRegisterRequest request) {
-        // Optional: check if email already exists
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already registered");
-        }
-
-        // Hash password
-        String hashedPassword = passwordEncoder.encode(request.getPassword());
-
-        // Create new user object
-        User user = new User();
-        user.setFullName(request.getFullName());
-        user.setEmail(request.getEmail());
-        user.setPasswordHash(hashedPassword);
-        user.setAddress(request.getAddress());
-        user.setPhone(request.getPhone());
-        user.setRole(User.Role.CUSTOMER); // Default role
-
-        return userRepository.save(user);
+        return universalFactoryService.registerNewCustomer(request);
     }
     @Override
     public Map<String, Object> login(UserLoginRequest request) {
