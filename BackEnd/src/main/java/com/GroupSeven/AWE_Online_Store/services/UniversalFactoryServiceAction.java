@@ -1,5 +1,6 @@
 package com.GroupSeven.AWE_Online_Store.services;
 
+import com.GroupSeven.AWE_Online_Store.dto.ProductCreationRequest;
 import com.GroupSeven.AWE_Online_Store.dto.UserRegisterRequest;
 import com.GroupSeven.AWE_Online_Store.entity.Product;
 import com.GroupSeven.AWE_Online_Store.entity.User;
@@ -12,13 +13,14 @@ import org.springframework.stereotype.Service;
 public class UniversalFactoryServiceAction implements UniversalFactoryService {
     // All Repository - interacting with database
     private final UserRepository userRepository;
+    private final ProductRepository productRepository;
     // For password Hashing
     private final BCryptPasswordEncoder passwordEncoder;
 
 
-    public UniversalFactoryServiceAction(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UniversalFactoryServiceAction(UserRepository userRepository, ProductRepository productRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-
+        this.productRepository = productRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -28,16 +30,31 @@ public class UniversalFactoryServiceAction implements UniversalFactoryService {
             throw new RuntimeException("Email already in use");
         }
 
-        User user = new User();
-        user.setFullName(request.getFullName());
-        user.setEmail(request.getEmail());
-        user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
-        user.setRole(User.Role.CUSTOMER);
-        user.setAddress(request.getAddress());
-        user.setPhone(request.getPhone());
-
+        User user = User.builder()
+                .fullName(request.getFullName())
+                .email(request.getEmail())
+                .passwordHash(passwordEncoder.encode(request.getPassword()))
+                .role(User.Role.CUSTOMER)
+                .address(request.getAddress())
+                .phone(request.getPhone())
+                .build();
         return userRepository.save(user);
     }
 
-    
+
+    @Override
+    public Product createProduct(ProductCreationRequest request) {
+
+        Product product = Product.builder()
+                .name(request.getName())
+                .category(request.getCategory())
+                .description(request.getDescription())
+                .price(request.getPrice())
+                .imageUrl(request.getImageUrl())
+                .build();
+
+        return productRepository.save(product);
+    }
+
+
 }
