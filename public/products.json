@@ -1,0 +1,55 @@
+[
+  {
+    "id": 1,
+    "name": "Wireless Mouse",
+    "description": "Ergonomic and responsive wireless mouse. Features dual-mode connectivity and a high-precision sensor.",
+    "price": 19.99,
+    "image": "/mouse.jpg",
+    "specs": {
+      "Connectivity": "Wireless (2.4GHz + Bluetooth)",
+      "Battery Life": "12 months",
+      "DPI": "1600",
+      "Compatibility": "Windows, macOS, Linux"
+    }
+  },
+  {
+    "id": 2,
+    "name": "Mechanical Keyboard",
+    "description": "Tactile keys with customizable RGB lighting and durable build for gaming and work.",
+    "price": 59.99,
+    "image": "/keyboard.jpg",
+    "specs": {
+      "Switch Type": "Blue (Clicky)",
+      "Backlight": "RGB",
+      "Connectivity": "Wired USB",
+      "Compatibility": "Windows, macOS"
+    }
+  },
+  {
+    "id": 3,
+    "name": "HD Webcam",
+    "description": "1080p webcam with wide-angle lens and built-in microphone. Ideal for streaming and video calls.",
+    "price": 29.99,
+    "image": "/webcam.jpg",
+    "specs": {
+      "Resolution": "1080p (Full HD)",
+      "Field of View": "90\u00b0",
+      "Microphone": "Built-in stereo",
+      "Mount": "Clip-on & Tripod-ready"
+    }
+  },
+  {
+    "id": 4,
+    "name": "Noise Cancelling Headphones",
+    "description": "Wireless headphones with active noise cancellation and deep bass sound.",
+    "price": 89.99,
+    "image": "/headphones.jpg",
+    "specs": {
+      "Battery Life": "30 hours",
+      "ANC": "Active Noise Cancellation",
+      "Connectivity": "Bluetooth 5.0",
+      "Charging": "USB-C Fast Charging"
+    }
+  }
+]
+
