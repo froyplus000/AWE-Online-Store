@@ -101,7 +101,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb2xrQGdtYWlsLmNvbSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc0ODAxNDYzNiwiZXhwIjoxNzQ4MDE4MjM2fQ.VC7n3H5DJrvaoWLWs8klOjpqxb9YovIrI8p0UJmP3g4",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb2xrQGdtYWlsLmNvbSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc0ODI1MjI0MSwiZXhwIjoxNzQ4MjU1ODQxfQ.Ju8UkeoMXeRUmJHJiMpcstNzdnX8gMvXZIInTc5wvTg",
 									"type": "string"
 								}
 							]
@@ -196,7 +196,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhd2UuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4MDE2MTU1LCJleHAiOjE3NDgwMTk3NTV9.u_tG4MYB4Z5B0bHM3CvJcyF1uwuy6snKnrswTpecxXk",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhd2UuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4MjQ0MDUwLCJleHAiOjE3NDgyNDc2NTB9.L0Dfut7ACdnpJdLyy7CkOnaPXNQPJ2NATkR-8QzrW5Y",
 									"type": "string"
 								}
 							]
@@ -243,7 +243,41 @@
 			"name": "Product APIs",
 			"item": [
 				{
-					"name": "Get all products (not working)",
+					"name": "Get all products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products"
+							]
+						},
+						"description": "Get all product in the database"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product by ID",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -261,7 +295,7 @@
 							"raw": "// You can adjust your input for this test\n{\n  \"fullName\": \"Pattarapol Tantechasa 2\",\n  \"email\": \"folk@gmail.com\",\n  \"password\": \"mypassword123\",\n  \"address\": \"123 Main St\",\n  \"phone\": \"0400000000\"\n}\n\n"
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/products/all",
+							"raw": "http://localhost:8080/api/products/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -270,9 +304,10 @@
 							"path": [
 								"api",
 								"products",
-								"all"
+								"1"
 							]
-						}
+						},
+						"description": "Get product by id"
 					},
 					"response": []
 				},
@@ -284,7 +319,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhd2UuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4MTAyMDI3LCJleHAiOjE3NDgxMDU2Mjd9.TEiszNOwC2a22UrGcUufwUU9O5_20G8LZFPcxia4fEQ",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhd2UuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4MjQ0OTc2LCJleHAiOjE3NDgyNDg1NzZ9.jgHHY29F6gvHS3dWTj5FlTbl8WrtWUVllqCTj6a8JKs",
 									"type": "string"
 								}
 							]
@@ -320,11 +355,267 @@
 									"disabled": true
 								}
 							]
-						}
+						},
+						"description": "Log in with admin account to get the token\n\nPaste in Autorization tab as part of request to make this work\n\nCreate a product through CatalogueManager, with UniversalFactory, Only admin can do this.\n\n(Need admin token)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product by ID (Admin Only))",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhd2UuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4MjQ0OTc2LCJleHAiOjE3NDgyNDg1NzZ9.jgHHY29F6gvHS3dWTj5FlTbl8WrtWUVllqCTj6a8JKs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Keychron K3 Keyboard\",\r\n  \"category\": \"Accessories\",\r\n  \"description\": \"Mechanical RGB keyboard with macro support\",\r\n  \"price\": 219.99,\r\n  \"imageUrl\": \"https://example.com/keychron.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/products/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"1"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						},
+						"description": "Need to call login for admin account first, copy token from it response.\n\nThen, paste that token into Authrization as part of request"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product by ID (Admin Only)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhd2UuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4MjQ0OTc2LCJleHAiOjE3NDgyNDg1NzZ9.jgHHY29F6gvHS3dWTj5FlTbl8WrtWUVllqCTj6a8JKs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/products/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"3"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						},
+						"description": "Delete Product by ID, Need admin token"
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "All APIs related to Product entity"
+		},
+		{
+			"name": "Shopping Cart",
+			"item": [
+				{
+					"name": "Get all Cart Items (Need Token)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb2xrQGdtYWlsLmNvbSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc0ODI1MjI0MSwiZXhwIjoxNzQ4MjU1ODQxfQ.Ju8UkeoMXeRUmJHJiMpcstNzdnX8gMvXZIInTc5wvTg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/cart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"cart"
+							]
+						},
+						"description": "Get all product in cart for this user"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Product to Cart (Need token)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb2xrQGdtYWlsLmNvbSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc0ODI1MDQzOSwiZXhwIjoxNzQ4MjU0MDM5fQ.ibbLnxNqL5KdOvgVJ2MzbYE-jHarcsJWL452_NGCpI8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"productId\": 5,\n  \"quantity\": 2\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/cart/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"cart",
+								"add"
+							]
+						},
+						"description": "Add product to user's cart"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product in Cart (Need token)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb2xrQGdtYWlsLmNvbSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc0ODI1MDQzOSwiZXhwIjoxNzQ4MjU0MDM5fQ.ibbLnxNqL5KdOvgVJ2MzbYE-jHarcsJWL452_NGCpI8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"productId\": 4,\n  \"quantity\": 3\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/cart/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"cart",
+								"update"
+							]
+						},
+						"description": "Update quatity of item in the user's cart"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product from Cart by ID (Need token)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb2xrQGdtYWlsLmNvbSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc0ODI1MjI0MSwiZXhwIjoxNzQ4MjU1ODQxfQ.Ju8UkeoMXeRUmJHJiMpcstNzdnX8gMvXZIInTc5wvTg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"productId\": 4\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/cart/remove",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"cart",
+								"remove"
+							]
+						},
+						"description": "Remove item from user's cart by ID"
+					},
+					"response": []
+				}
+			],
+			"description": "All APIs related to Shopping Cart"
 		}
 	]
 }
