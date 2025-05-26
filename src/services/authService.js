@@ -1,32 +1,40 @@
 const API_BASE_URL = 'http://localhost:8080/api'
 
-// Used in SignUpForm.vue
+// Register new user
 export async function registerCustomer(formData) {
-  const response = await fetch(`${API_BASE_URL}/users`, {
+  const response = await fetch(`${API_BASE_URL}/users/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      username: formData.email,       
+      email: formData.email.trim().toLowerCase(),
       password: formData.password,
-      fullName: formData.fullName     // optional
+      fullName: formData.fullName
     }),
-  })
+  });
 
-  if (!response.ok) throw new Error(await response.text())
-  return await response.json()
+  if (!response.ok) {
+    const message = await response.text()
+    throw new Error(message || 'Registration failed')
+  }
+
+  return await response.text()
 }
 
-// Used in LoginForm.vue
+// Login user and return token + role
 export async function loginUser(credentials) {
-  const response = await fetch(`${API_BASE_URL}/login`, {
+  const response = await fetch(`${API_BASE_URL}/users/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      username: credentials.email, 
+      email: credentials.email,
       password: credentials.password
     }),
   });
-  
-  if (!response.ok) throw new Error('Login failed');
-  return await response.text();
+
+  if (!response.ok) {
+    const message = await response.text()
+    throw new Error(message || 'Login failed')
+  }
+
+  return await response.json()
 }
