@@ -131,6 +131,25 @@ public class OrderServiceAction implements OrderService {
         return mapToOrderResponse(order); // reuse from earlier
     }
 
+    @Override
+    public OrderResponse updateOrderStatus(Integer orderId, String newStatus) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        Order.OrderStatus statusEnum;
+        try {
+            statusEnum = Order.OrderStatus.valueOf(newStatus.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid order status");
+        }
+
+        order.setStatus(statusEnum);
+        orderRepository.save(order);
+
+        return mapToOrderResponse(order); // reuse existing mapping method
+    }
+
+
 
     private BigDecimal calculateTotal(List<CartItem> cartItems) {
         return cartItems.stream()

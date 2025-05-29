@@ -2,6 +2,7 @@ package com.GroupSeven.AWE_Online_Store.controllers;
 
 import com.GroupSeven.AWE_Online_Store.dto.OrderItemResponse;
 import com.GroupSeven.AWE_Online_Store.dto.OrderResponse;
+import com.GroupSeven.AWE_Online_Store.dto.UpdateOrderStatusRequest;
 import com.GroupSeven.AWE_Online_Store.entity.Order;
 import com.GroupSeven.AWE_Online_Store.entity.User;
 import com.GroupSeven.AWE_Online_Store.repository.UserRepository;
@@ -71,6 +72,17 @@ public class OrderController {
         OrderResponse response = orderService.getOrderById(email, id);
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/{id}/status")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<OrderResponse> updateOrderStatus(
+            @PathVariable Integer id,
+            @RequestBody UpdateOrderStatusRequest request
+    ) {
+        OrderResponse updated = orderService.updateOrderStatus(id, request.getStatus());
+        return ResponseEntity.ok(updated);
+    }
+
 
 
 }

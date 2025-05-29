@@ -10,4 +10,5 @@ public interface OrderService {
     List<OrderResponse> getOrdersForUser(String userEmail);
     List<OrderResponse> getAllOrders();
     OrderResponse getOrderById(String userEmail, Integer orderId);
+    OrderResponse updateOrderStatus(Integer orderId, String newStatus);
 }
