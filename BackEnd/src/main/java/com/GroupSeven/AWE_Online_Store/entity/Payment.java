@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,21 +20,12 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "order_id", unique = true)
+    @OneToOne
+    @JoinColumn(name = "order_id")
     private Order order;
-
-    @Enumerated(EnumType.STRING)
-    private PaymentStatus status = PaymentStatus.UNPAID;
-
-    private String paymentMethod; // e.g., 'Credit Card', 'PayPal'
-
-    private LocalDateTime paidAt;
-
-    public enum PaymentStatus {
-        UNPAID,
-        PAID,
-        FAILED
-    }
+    private BigDecimal amount;
+    private String status;
+    private String paymentMethod;
+    private LocalDateTime paymentDate;
 
 }

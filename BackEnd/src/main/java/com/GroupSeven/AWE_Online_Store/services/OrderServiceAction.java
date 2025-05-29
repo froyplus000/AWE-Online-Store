@@ -4,6 +4,7 @@ import com.GroupSeven.AWE_Online_Store.dto.OrderItemResponse;
 import com.GroupSeven.AWE_Online_Store.dto.OrderResponse;
 import com.GroupSeven.AWE_Online_Store.entity.*;
 import com.GroupSeven.AWE_Online_Store.repository.*;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,34 +15,14 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
+@AllArgsConstructor
 public class OrderServiceAction implements OrderService {
 
     private final UserRepository userRepository;
     private final CartItemRepository cartItemRepository;
-    private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
-    private final PaymentRepository paymentRepository;
     private final UniversalFactoryService universalFactoryService;
-
-    @Autowired
-    public OrderServiceAction(
-            UserRepository userRepository,
-            CartItemRepository cartItemRepository,
-            ProductRepository productRepository,
-            OrderRepository orderRepository,
-            OrderItemRepository orderItemRepository,
-            PaymentRepository paymentRepository,
-            UniversalFactoryService universalFactoryService
-    ) {
-        this.userRepository = userRepository;
-        this.cartItemRepository = cartItemRepository;
-        this.productRepository = productRepository;
-        this.orderRepository = orderRepository;
-        this.orderItemRepository = orderItemRepository;
-        this.paymentRepository = paymentRepository;
-        this.universalFactoryService = universalFactoryService;
-    }
 
     @Override
     public Order placeOrder(String userEmail) {
@@ -69,14 +50,7 @@ public class OrderServiceAction implements OrderService {
         List<OrderItem> orderItems = createOrderItems(order, cartItems);
         order.getOrderItems().addAll(orderItems);
 
-        // 7. Create an initial payment entry
-        Payment payment = new Payment();
-        payment.setOrder(order);
-        payment.setStatus(Payment.PaymentStatus.UNPAID);
-        payment.setPaymentMethod("NONE"); // Will be updated on payment
-        paymentRepository.save(payment);
-
-        // 8. Clear the user's cart
+        // 7. Clear the user's cart
         cartItemRepository.deleteAll(cartItems);
 
         return order;
