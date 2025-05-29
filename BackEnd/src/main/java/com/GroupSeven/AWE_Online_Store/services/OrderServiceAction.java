@@ -1,12 +1,17 @@
 package com.GroupSeven.AWE_Online_Store.services;
 
+import com.GroupSeven.AWE_Online_Store.dto.OrderItemResponse;
+import com.GroupSeven.AWE_Online_Store.dto.OrderResponse;
 import com.GroupSeven.AWE_Online_Store.entity.*;
 import com.GroupSeven.AWE_Online_Store.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class OrderServiceAction implements OrderService {
@@ -76,6 +81,56 @@ public class OrderServiceAction implements OrderService {
 
         return order;
     }
+
+    @Override
+    public List<OrderResponse> getOrdersForUser(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        List<Order> orders = orderRepository.findByUser(user);
+        return orders.stream().map(this::mapToOrderResponse).toList();
+    }
+
+    @Override
+    public List<OrderResponse> getAllOrders() {
+        List<Order> orders = orderRepository.findAll();
+        return orders.stream().map(this::mapToOrderResponse).toList();
+    }
+
+    private OrderResponse mapToOrderResponse(Order order) {
+        List<OrderItemResponse> items = order.getOrderItems().stream()
+                .map(item -> new OrderItemResponse(
+                        item.getProduct().getName(),
+                        item.getQuantity(),
+                        item.getPrice()
+                ))
+                .toList();
+
+        return new OrderResponse(
+                order.getId(),
+                order.getTotalPrice(),
+                order.getStatus().name(),
+                items
+        );
+    }
+
+    @Override
+    public OrderResponse getOrderById(String email, Integer orderId) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        String userRole = String.valueOf(user.getRole());
+        User orderOwner = order.getUser();
+        if (Objects.equals(userRole, "CUSTOMER")) {
+            if (!Objects.equals(user.getId(), orderOwner.getId())) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to view this order");
+            }
+        }
+        return mapToOrderResponse(order); // reuse from earlier
+    }
+
 
     private BigDecimal calculateTotal(List<CartItem> cartItems) {
         return cartItems.stream()
