@@ -20,7 +20,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/users/login", "/api/users/register", "/api/products", "/api/products/{id}","/api/cart/add", "/api/cart/remove").permitAll()
+                        .requestMatchers("/api/users/login", "/api/users/register", "/api/products", "/api/products/{id}","/api/cart/add", "/api/cart/remove", "api/orders/place").permitAll()
                         .anyRequest().authenticated()
                 )
 //                .addFilterBefore(jwtFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);

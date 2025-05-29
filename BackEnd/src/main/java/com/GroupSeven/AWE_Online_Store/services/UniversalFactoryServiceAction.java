@@ -2,12 +2,15 @@ package com.GroupSeven.AWE_Online_Store.services;
 
 import com.GroupSeven.AWE_Online_Store.dto.ProductCreationRequest;
 import com.GroupSeven.AWE_Online_Store.dto.UserRegisterRequest;
+import com.GroupSeven.AWE_Online_Store.entity.Order;
 import com.GroupSeven.AWE_Online_Store.entity.Product;
 import com.GroupSeven.AWE_Online_Store.entity.User;
 import com.GroupSeven.AWE_Online_Store.repository.ProductRepository;
 import com.GroupSeven.AWE_Online_Store.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 @Service
 public class UniversalFactoryServiceAction implements UniversalFactoryService {
@@ -55,6 +58,16 @@ public class UniversalFactoryServiceAction implements UniversalFactoryService {
 
         return productRepository.save(product);
     }
+
+
+    public Order createOrder(User user, BigDecimal totalPrice) {
+        Order order = new Order();
+        order.setUser(user);
+        order.setTotalPrice(totalPrice);
+        order.setStatus(Order.OrderStatus.PENDING);
+        return order;
+    }
+
 
 
 }
