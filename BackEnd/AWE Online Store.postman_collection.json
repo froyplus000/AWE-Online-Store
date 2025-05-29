@@ -44,7 +44,51 @@
 						},
 						"description": "Customer register for account, these are all required input for account registration"
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Register",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "// You can adjust your input for this test\n{\n  \"fullName\": \"John Wick\",\n  \"email\": \"john@gmail.com\",\n  \"password\": \"mypassword123\",\n  \"address\": \"32 Middle St\",\n  \"phone\": \"0466092380\"\n}\n\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/users/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users",
+										"register"
+									]
+								}
+							},
+							"_postman_previewlanguage": "",
+							"header": [],
+							"cookie": [
+								{
+									"expires": "Invalid Date"
+								}
+							],
+							"body": ""
+						}
+					]
 				},
 				{
 					"name": "Login",
@@ -88,7 +132,100 @@
 						},
 						"description": "Test User login"
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Login John",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"john@gmail.com\",\n  \"password\": \"mypassword123\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/users/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users",
+										"login"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Login Folk",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"folk@gmail.com\",\n  \"password\": \"mypassword123\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/users/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users",
+										"login"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
 				},
 				{
 					"name": "Current user Information",
@@ -101,7 +238,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb2xrQGdtYWlsLmNvbSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc0ODI1MjI0MSwiZXhwIjoxNzQ4MjU1ODQxfQ.Ju8UkeoMXeRUmJHJiMpcstNzdnX8gMvXZIInTc5wvTg",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb2xrQGdtYWlsLmNvbSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc0ODUwOTgzMCwiZXhwIjoxNzQ4NTEzNDMwfQ.Yc7M0jUaP5n604A64PCJzT5k6iOdGq8BkqKd5bcwyjQ",
 									"type": "string"
 								}
 							]
@@ -465,7 +602,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb2xrQGdtYWlsLmNvbSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc0ODI1MjI0MSwiZXhwIjoxNzQ4MjU1ODQxfQ.Ju8UkeoMXeRUmJHJiMpcstNzdnX8gMvXZIInTc5wvTg",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huQGdtYWlsLmNvbSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc0ODUyMTUxMiwiZXhwIjoxNzQ4NTI1MTEyfQ.mhY-fkITaxJxwHOXm8m3otnsdqKWwPiHkBs4n0CHNMU",
 									"type": "string"
 								}
 							]
@@ -496,7 +633,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb2xrQGdtYWlsLmNvbSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc0ODI1MDQzOSwiZXhwIjoxNzQ4MjU0MDM5fQ.ibbLnxNqL5KdOvgVJ2MzbYE-jHarcsJWL452_NGCpI8",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb2xrQGdtYWlsLmNvbSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc0ODUwOTgzMCwiZXhwIjoxNzQ4NTEzNDMwfQ.Yc7M0jUaP5n604A64PCJzT5k6iOdGq8BkqKd5bcwyjQ",
 									"type": "string"
 								}
 							]
@@ -511,7 +648,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"productId\": 5,\n  \"quantity\": 2\n}"
+							"raw": "{\n  \"productId\": 1,\n  \"quantity\": 3\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/api/cart/add",
@@ -528,7 +665,76 @@
 						},
 						"description": "Add product to user's cart"
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Example 1",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"productId\": 1,\n  \"quantity\": 3\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/cart/add",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"cart",
+										"add"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Example 2",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"productId\": 8,\n  \"quantity\": 5\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/cart/add",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"cart",
+										"add"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
 				},
 				{
 					"name": "Update Product in Cart (Need token)",
@@ -616,6 +822,159 @@
 				}
 			],
 			"description": "All APIs related to Shopping Cart"
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Place Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huQGdtYWlsLmNvbSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc0ODUyMTUxMiwiZXhwIjoxNzQ4NTI1MTEyfQ.mhY-fkITaxJxwHOXm8m3otnsdqKWwPiHkBs4n0CHNMU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/orders/place",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"orders",
+								"place"
+							]
+						},
+						"description": "Create order with item in cart"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Orders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhd2UuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4NTI0ODY2LCJleHAiOjE3NDg1Mjg0NjZ9.dKOdQ3DdjhkZ0dogJKtcwXAy0FdMJZtZ5-YsTklldKU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"orders"
+							]
+						},
+						"description": "- Admin : get all orders in the system\n    \n- Customer : get all their own orders"
+					},
+					"response": []
+				},
+				{
+					"name": "Get order by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhd2UuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4NTI0ODY2LCJleHAiOjE3NDg1Mjg0NjZ9.dKOdQ3DdjhkZ0dogJKtcwXAy0FdMJZtZ5-YsTklldKU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/orders/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"orders",
+								"3"
+							]
+						},
+						"description": "- Admin : can get specific information of any order in the system\n    \n- Customer : can only get specific information of their own order\n    \n- Get order by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Update Order Status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhd2UuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4NTI0ODY2LCJleHAiOjE3NDg1Mjg0NjZ9.dKOdQ3DdjhkZ0dogJKtcwXAy0FdMJZtZ5-YsTklldKU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"PENDING\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/orders/1/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"orders",
+								"1",
+								"status"
+							]
+						},
+						"description": "- Only admin can update status\n    \n- Admin can update status to\n    \n    - PENDING\n        \n    - PAID\n        \n    - SHIPPED\n        \n    - CANCELLED"
+					},
+					"response": []
+				}
+			],
+			"description": "APIs about Order"
 		}
 	]
 }
