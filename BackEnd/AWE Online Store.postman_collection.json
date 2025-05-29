@@ -876,7 +876,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhd2UuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ4NTI0ODY2LCJleHAiOjE3NDg1Mjg0NjZ9.dKOdQ3DdjhkZ0dogJKtcwXAy0FdMJZtZ5-YsTklldKU",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb2xrQGdtYWlsLmNvbSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc0ODUzOTQzMCwiZXhwIjoxNzQ4NTQzMDMwfQ.WfiIE_K1Ed2DF-h46Xr_1ztcNEY93yV1zVnKY_qZ8kU",
 									"type": "string"
 								}
 							]
@@ -975,6 +975,54 @@
 				}
 			],
 			"description": "APIs about Order"
+		},
+		{
+			"name": "Pay for Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb2xrQGdtYWlsLmNvbSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc0ODUzOTQzMCwiZXhwIjoxNzQ4NTQzMDMwfQ.WfiIE_K1Ed2DF-h46Xr_1ztcNEY93yV1zVnKY_qZ8kU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"orderId\": 1,\n  \"amount\": 59.99,\n  \"paymentMethod\": \"Credit Card\"\n}\n\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/payments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"payments"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				},
+				"description": "Customer pay for order"
+			},
+			"response": []
 		}
 	]
 }
