@@ -11,4 +11,7 @@ public interface UserService {
     User registerUser(UserRegisterRequest request);
     Map<String, Object> login(UserLoginRequest request);
     Map<String, Object> getCurrentUser(HttpServletRequest request);
+
+
+    User loginAndReturnUser(UserLoginRequest request);
 }
