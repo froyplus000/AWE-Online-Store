@@ -8,7 +8,15 @@
 
     <!-- Product Grid -->
     <main class="flex-grow max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-      <h3 class="text-2xl font-semibold mb-8 text-center">Our Electronics Collection</h3>
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-2xl font-semibold text-center">Our Electronics Collection</h3>
+        <button
+          @click="fetchProducts"
+          class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded"
+        >
+          Refresh Products
+        </button>
+      </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         <div
           v-for="product in products"
@@ -20,9 +28,10 @@
             class="block"
           >
             <img
-              :src="product.image"
+              :src="product.imageUrl || product.image"
               :alt="product.name"
               class="w-full h-48 object-cover"
+              @error="handleImageError"
             />
           </router-link>
           <div class="flex flex-col justify-between flex-1 p-4">
@@ -53,6 +62,13 @@
           <router-link to="/signup" class="hover:text-indigo-600 underline">Sign Up</router-link>
           <router-link to="/cart" class="hover:text-indigo-600 underline">Cart</router-link>
           <router-link to="/checkout" class="hover:text-indigo-600 underline">Checkout</router-link>
+          <router-link
+            v-if="isAdmin"
+            to="/admin/dashboard"
+            class="hover:text-indigo-600 underline"
+          >
+            Admin Dashboard
+          </router-link>
         </div>
       </div>
     </footer>
@@ -64,7 +80,8 @@ export default {
   name: 'Catalogue',
   data() {
     return {
-      products: [
+      products: [],
+      defaultProducts: [
         {
           id: 1,
           name: 'Wireless Mouse',
@@ -93,8 +110,14 @@ export default {
           price: 89.99,
           image: '/headphones.jpg',
         },
-      ],
+      ]
     };
+  },
+  computed: {
+    isAdmin() {
+      const user = JSON.parse(localStorage.getItem('activeUser') || '{}');
+      return user?.role === 'ADMIN';
+    },
   },
   methods: {
     addToCart(product) {
@@ -103,11 +126,39 @@ export default {
       if (existing) {
         existing.quantity += 1;
       } else {
-        cart.push({ ...product, quantity: 1 });
+        cart.push({ 
+          ...product, 
+          quantity: 1,
+          image: product.imageUrl || product.image // Handle both formats
+        });
       }
       localStorage.setItem('cart', JSON.stringify(cart));
       alert(`${product.name} added to cart`);
     },
+    
+    
+    fetchProducts() {
+      fetch('http://localhost:8080/api/products')
+        .then(res => res.json())
+        .then(data => {
+          console.log('Backend products:', data);
+          this.products = data;
+        })
+        .catch(err => {
+          console.warn('Backend unavailable, using default products');
+          this.products = this.defaultProducts;
+        });
+    }
   },
+  mounted() {
+    this.fetchProducts();
+  },
+  watch: {
+    '$route'(to, from) {
+      if (to.path === '/catalogue') {
+        this.fetchProducts();
+      }
+    }
+  }
 };
 </script>
