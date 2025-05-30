@@ -1,5 +1,6 @@
 package com.GroupSeven.AWE_Online_Store.services;
 
+import com.GroupSeven.AWE_Online_Store.dto.CreateOrderRequest;
 import com.GroupSeven.AWE_Online_Store.dto.OrderItemResponse;
 import com.GroupSeven.AWE_Online_Store.dto.OrderResponse;
 import com.GroupSeven.AWE_Online_Store.entity.*;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,7 +24,50 @@ public class OrderServiceAction implements OrderService {
     private final CartItemRepository cartItemRepository;
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
+    private final ProductRepository productRepository; // Add this
     private final UniversalFactoryService universalFactoryService;
+
+    @Override
+    public Order createOrder(User user, CreateOrderRequest request) {
+        // Create the order
+        Order order = new Order();
+        order.setUser(user);
+        order.setTotalPrice(request.getTotal());
+        // createdAt will be set automatically by @PrePersist
+        
+        // Set status - handle different status formats
+        try {
+            order.setStatus(Order.OrderStatus.valueOf(request.getStatus().toUpperCase()));
+        } catch (Exception e) {
+            order.setStatus(Order.OrderStatus.PENDING); // Default status
+        }
+        
+        // Save the order first to get ID
+        order = orderRepository.save(order);
+        
+        // Create order items from the request
+        List<OrderItem> orderItems = new ArrayList<>();
+        for (CreateOrderRequest.OrderItemRequest itemRequest : request.getItems()) {
+            // Get the product from database - REQUIRED to exist
+            Product product = productRepository.findById(itemRequest.getProductId())
+                    .orElseThrow(() -> new RuntimeException("Product not found: " + itemRequest.getProductId() + 
+                                     ". Please add this product to the system first."));
+            
+            OrderItem orderItem = new OrderItem();
+            orderItem.setOrder(order);
+            orderItem.setProduct(product);
+            orderItem.setQuantity(itemRequest.getQuantity());
+            orderItem.setPrice(itemRequest.getPrice());
+            
+            orderItems.add(orderItem);
+        }
+        
+        // Save all order items
+        orderItems = orderItemRepository.saveAll(orderItems);
+        order.setOrderItems(orderItems);
+        
+        return order;
+    }
 
     @Override
     public Order placeOrder(String userEmail) {
@@ -122,8 +167,6 @@ public class OrderServiceAction implements OrderService {
 
         return mapToOrderResponse(order); // reuse existing mapping method
     }
-
-
 
     private BigDecimal calculateTotal(List<CartItem> cartItems) {
         return cartItems.stream()
