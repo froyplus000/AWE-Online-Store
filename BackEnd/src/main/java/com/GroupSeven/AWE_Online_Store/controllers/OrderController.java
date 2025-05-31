@@ -1,20 +1,18 @@
 package com.GroupSeven.AWE_Online_Store.controllers;
 
-import com.GroupSeven.AWE_Online_Store.dto.OrderItemResponse;
-import com.GroupSeven.AWE_Online_Store.dto.OrderResponse;
-import com.GroupSeven.AWE_Online_Store.dto.UpdateOrderStatusRequest;
+import com.GroupSeven.AWE_Online_Store.dto.*;
 import com.GroupSeven.AWE_Online_Store.entity.Order;
 import com.GroupSeven.AWE_Online_Store.entity.User;
 import com.GroupSeven.AWE_Online_Store.repository.UserRepository;
 import com.GroupSeven.AWE_Online_Store.services.OrderService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.Map;
 import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RestController
 @RequestMapping("/api/orders")
@@ -23,6 +21,33 @@ public class OrderController {
 
     private final OrderService orderService;
     private final UserRepository userRepository;
+
+    @PostMapping
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> createOrder(@RequestBody CreateOrderRequest request, Authentication authentication) {
+        try {
+            String email = authentication.getName();
+            User user = userRepository.findByEmail(email).orElseThrow(() -> 
+                new RuntimeException("User not found"));
+            
+            Order order = orderService.createOrder(user, request);
+            
+            return ResponseEntity.ok(Map.of(
+                "id", order.getId(),
+                "status", order.getStatus().name(),
+                "total", order.getTotalPrice(),
+                "message", "Order created successfully"
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<OrderResponse>> getAllOrdersForAdmin() {
+        return ResponseEntity.ok(orderService.getAllOrders());
+    }
 
     @PostMapping("/place")
     @PreAuthorize("hasRole('CUSTOMER')")
@@ -61,14 +86,13 @@ public class OrderController {
         }
     }
 
-
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<OrderResponse> getOrderById(
             @PathVariable Integer id,
             Authentication authentication
     ) {
-        String email = authentication.getName(); // logged-in user's email
+        String email = authentication.getName();
         OrderResponse response = orderService.getOrderById(email, id);
         return ResponseEntity.ok(response);
     }
@@ -82,7 +106,4 @@ public class OrderController {
         OrderResponse updated = orderService.updateOrderStatus(id, request.getStatus());
         return ResponseEntity.ok(updated);
     }
-
-
-
 }

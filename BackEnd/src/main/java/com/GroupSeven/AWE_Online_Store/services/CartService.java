@@ -12,5 +12,5 @@ public interface CartService {
     void addToCart(String userEmail, AddToCartRequest request);
     void updateCartItem(String email, UpdateCartRequest request);
     void removeFromCart(String email, RemoveFromCartRequest request);
-
+    void clearCart(String email); 
 }

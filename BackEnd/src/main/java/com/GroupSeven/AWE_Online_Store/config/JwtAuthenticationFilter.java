@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -24,6 +23,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getRequestURI();
+        // Only exclude public endpoints - REMOVE /api/orders from here!
+        return path.startsWith("/api/users/login")
+                || path.startsWith("/api/users/register")
+                || (path.startsWith("/api/products") && request.getMethod().equals("GET"));
+                // Orders should require authentication, so don't exclude them
     }
 
     @Override
@@ -41,20 +50,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = authHeader.substring(7); // Remove "Bearer "
 
         try {
-            Claims claims = jwtUtil.extractClaims(token);
-            String email = claims.getSubject();
-            String role = claims.get("role", String.class);
+            if (jwtUtil.isTokenValid(token)) {
+                Claims claims = jwtUtil.extractClaims(token);
+                String email = claims.getSubject();
+                String role = claims.get("role", String.class);
 
-            List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
-            // Set an authenticated user in Spring Security context
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(email, null, authorities);
+                List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
+                
+                // Set an authenticated user in Spring Security context
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(email, null, authorities);
 
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                
+                System.out.println("JWT Authentication successful for: " + email + " with role: " + role);
+            }
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
+            System.err.println("JWT Authentication failed: " + e.getMessage());
+            // Doesnt return error here, let it continue to endpoint and fail with 403
         }
 
         filterChain.doFilter(request, response);

@@ -15,16 +15,21 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class UserServiceAction implements UserService{
+public class UserServiceAction implements UserService {
+
     private final UserRepository userRepository;
+
     @Autowired
     public UserServiceAction(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
     @Autowired
     private JwtUtil jwtUtil;
+
     @Autowired
     private UniversalFactoryService universalFactoryService;
 
@@ -32,6 +37,7 @@ public class UserServiceAction implements UserService{
     public User registerUser(UserRegisterRequest request) {
         return universalFactoryService.registerNewCustomer(request);
     }
+
     @Override
     public Map<String, Object> login(UserLoginRequest request) {
         Optional<User> userOpt = userRepository.findByEmail(request.getEmail());
@@ -50,6 +56,7 @@ public class UserServiceAction implements UserService{
         response.put("token", token);
         response.put("email", user.getEmail());
         response.put("role", user.getRole());
+        response.put("id", user.getId()); // included for API compatibility
 
         return response;
     }
@@ -87,6 +94,20 @@ public class UserServiceAction implements UserService{
         return response;
     }
 
+    @Override
+    public User loginAndReturnUser(UserLoginRequest request) {
+        Optional<User> userOpt = userRepository.findByEmail(request.getEmail());
 
+        if (userOpt.isEmpty()) {
+            throw new RuntimeException("Invalid email or password");
+        }
 
+        User user = userOpt.get();
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
+            throw new RuntimeException("Invalid email or password");
+        }
+
+        return user;
+    }
 }

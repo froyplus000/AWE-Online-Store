@@ -18,6 +18,7 @@ import java.util.List;
 @RequestMapping("/api/cart")
 public class CartController {
     private final CartService cartService;
+    
     public CartController(CartService cartService) {
         this.cartService = cartService;
     }
@@ -32,7 +33,6 @@ public class CartController {
 
         return ResponseEntity.ok(cartItems);
     }
-
 
     @PostMapping("/add")
     @PreAuthorize("isAuthenticated()")
@@ -74,6 +74,14 @@ public class CartController {
         return ResponseEntity.ok("Item removed from cart");
     }
 
+    @DeleteMapping("/clear")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<String> clearCart() {
+        String email = SecurityContextHolder.getContext()
+                .getAuthentication().getName();
 
+        cartService.clearCart(email);
 
+        return ResponseEntity.ok("Cart cleared");
+    }
 }
