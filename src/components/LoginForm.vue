@@ -45,15 +45,35 @@ async function handleLogin() {
     }
 
     const response = await res.json()
+    console.log('Login response:', response) // Debug log
 
-    if (!response.user || !response.token) {
-      throw new Error('Invalid server response')
+    // Handle both old and new response formats
+    let user, token
+
+    if (response.user && response.token) {
+      // New format: {user: {...}, token: "..."}
+      user = response.user
+      token = response.token
+    } else if (response.token && (response.email || response.role)) {
+      // Old format: {email: "...", role: "...", token: "..."}
+      user = {
+        id: response.id || 1, // Fallback ID if missing
+        email: response.email,
+        role: response.role,
+        fullName: response.fullName || ''
+      }
+      token = response.token
+    } else {
+      console.error('Unexpected response format:', response)
+      throw new Error('Invalid server response format')
     }
 
-    const { user, token } = response
-
-    if (!user.id) {
+    if (!user || !user.email) {
       throw new Error('Invalid user data')
+    }
+
+    if (!token) {
+      throw new Error('No authentication token received')
     }
 
     // Store authentication data
@@ -68,6 +88,7 @@ async function handleLogin() {
     }
 
   } catch (err) {
+    console.error('Login error:', err)
     error.value = err.message || 'Login failed'
   } finally {
     isLoading.value = false
