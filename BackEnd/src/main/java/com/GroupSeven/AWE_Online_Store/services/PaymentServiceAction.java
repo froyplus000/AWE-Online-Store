@@ -15,6 +15,7 @@ public class PaymentServiceAction implements PaymentService{
     private final PaymentRepository paymentRepository;
     private final UniversalFactoryService factory;
     private final OrderRepository orderRepository;
+    private final OrderService orderService;
 
     @Override
     public PaymentResponse processPayment(PaymentRequest request) {
@@ -22,7 +23,7 @@ public class PaymentServiceAction implements PaymentService{
                 .orElseThrow(() -> new RuntimeException("Order not found"));
         Payment payment = factory.createPayment(request, order); // using UniversalFactory
         Payment saved = paymentRepository.save(payment);
-
+        orderService.updateOrderStatus(request.getOrderId(), "PAID");
         return PaymentResponse.builder()
                 .orderId(saved.getOrder().getId())
                 .status(String.valueOf(saved.getStatus()))
