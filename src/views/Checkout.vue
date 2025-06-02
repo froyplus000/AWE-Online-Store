@@ -53,17 +53,8 @@ export default {
       if (!user || !token) return
       
       try {
-        // Clear existing cart items first
-        await fetch('http://localhost:8080/api/cart/clear', {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          credentials: 'include'
-        })
-        
-        // Add each cart item to backend
+        // Skip cart clear since the endpoint doesn't exist
+        // Just add each cart item to backend
         for (const item of this.cart) {
           await fetch('http://localhost:8080/api/cart/add', {
             method: 'POST',
@@ -103,20 +94,8 @@ export default {
       try {
         // First sync cart to backend
         await this.syncCartToBackend()
-        
-        const orderData = {
-          userId: user.id,
-          items: this.cart.map(item => ({
-            productId: item.id,
-            productName: item.name,
-            quantity: item.quantity,
-            price: item.price
-          })),
-          total: parseFloat(this.totalPrice),
-          status: 'PENDING'
-        }
 
-        console.log('Submitting order with JWT auth:', orderData)
+        console.log('Submitting order with JWT auth')
 
         const headers = {
           'Content-Type': 'application/json'
@@ -130,11 +109,11 @@ export default {
           throw new Error('No authentication token found. Please log in again.')
         }
 
-        const response = await fetch('http://localhost:8080/api/orders', {
+        // FIXED: Use /api/orders/place instead of /api/orders
+        const response = await fetch('http://localhost:8080/api/orders/place', {
           method: 'POST',
           headers: headers,
-          credentials: 'include',
-          body: JSON.stringify(orderData)
+          credentials: 'include'
         })
 
         console.log('Order response status:', response.status)
