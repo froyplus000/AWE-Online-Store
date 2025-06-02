@@ -256,7 +256,8 @@ async function fetchOrders() {
       headers['Authorization'] = `Bearer ${token}`
     }
     
-    const response = await fetch('http://localhost:8080/api/orders/all', {
+    // FIXED: Use /api/orders instead of /api/orders/all
+    const response = await fetch('http://localhost:8080/api/orders', {
       method: 'GET',
       headers: headers,
       credentials: 'include'
