@@ -43,9 +43,10 @@
               <span class="text-indigo-600 font-bold text-lg">${{ product.price }}</span>
               <button
                 @click="addToCart(product)"
-                class="bg-indigo-500 hover:bg-indigo-600 text-white text-sm px-4 py-2 rounded-lg"
+                :disabled="loadingProducts.includes(product.id)"
+                class="bg-indigo-500 hover:bg-indigo-600 disabled:bg-gray-400 text-white text-sm px-4 py-2 rounded-lg"
               >
-                Add to Cart
+                {{ loadingProducts.includes(product.id) ? 'Adding...' : 'Add to Cart' }}
               </button>
             </div>
           </div>
@@ -81,6 +82,7 @@ export default {
   data() {
     return {
       products: [],
+      loadingProducts: [], // Array instead of object to avoid $set issues
       defaultProducts: [
         {
           id: 1,
@@ -118,24 +120,76 @@ export default {
       const user = JSON.parse(localStorage.getItem('activeUser') || '{}');
       return user?.role === 'ADMIN';
     },
+    isLoggedIn() {
+      return !!localStorage.getItem('activeUser');
+    }
   },
   methods: {
-    addToCart(product) {
+    async addToCart(product) {
+      // Add to loading array
+      this.loadingProducts.push(product.id);
+
+      try {
+        if (this.isLoggedIn) {
+          await this.addToBackendCart(product);
+        } else {
+          this.addToLocalCart(product);
+        }
+        
+        alert(`${product.name} added to cart`);
+      } catch (error) {
+        console.error('Failed to add to cart:', error);
+        alert('Failed to add item to cart. Please try again.');
+      } finally {
+        // Remove from loading array
+        this.loadingProducts = this.loadingProducts.filter(id => id !== product.id);
+      }
+    },
+
+    async addToBackendCart(product) {
+      const token = localStorage.getItem('token');
+      
+      const response = await fetch('http://localhost:8080/api/cart/add', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          productId: product.id,
+          quantity: 1
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Backend cart add failed');
+      }
+
+      this.addToLocalCart(product);
+      console.log('Item added to backend cart');
+    },
+
+    addToLocalCart(product) {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       const existing = cart.find(item => item.id === product.id);
+      
       if (existing) {
         existing.quantity += 1;
       } else {
         cart.push({ 
           ...product, 
           quantity: 1,
-          image: product.imageUrl || product.image // Handle both formats
+          image: product.imageUrl || product.image
         });
       }
+      
       localStorage.setItem('cart', JSON.stringify(cart));
-      alert(`${product.name} added to cart`);
     },
     
+    handleImageError(event) {
+      event.target.src = 'https://via.placeholder.com/300x200/6366f1/ffffff?text=No+Image';
+    },
     
     fetchProducts() {
       fetch('http://localhost:8080/api/products')
